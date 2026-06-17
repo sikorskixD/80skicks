@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>80's Kicks: New Shoe</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Lato&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="styles.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="sub-page">
+<div class="page-container">
+
+<header class="site-header">
+    <a href="index.html">
+        <img src="assets/images/new-logo.png" alt="80's Kicks">
+    </a>
+</header>
+
+<nav class="primary-nav">
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <ul id="navLinks">
+        <li><a href="collection.html">COLLECTION</a></li>
+        <li><a href="future.html">FUTURE PICKUPS</a></li>
+        <li><a href="new.html">ADD NEW</a></li>
+    </ul>
+</nav>
+
+<main class="new-page">
+
+    <h1 class="new-title">ADD NEW SHOE</h1>
+
+    <div class="admin-login-box">
+        <button id="loginButton" type="button">SIGN IN WITH GOOGLE</button>
+        <button id="logoutButton" type="button">LOG OUT</button>
+        <p id="adminStatus">You must sign in to add shoes.</p>
+    </div>
+
+    <form id="shoeForm" class="shoe-form hidden">
+
+        <label for="shoeName">Shoe Name</label>
+        <input type="text" id="shoeName" required>
+
+        <label for="imageUrl">Image URL</label>
+        <input type="url" id="imageUrl" required>
+
+        <label for="shoeUrl">Shoe Link</label>
+        <input type="url" id="shoeUrl" required>
+
+        <label for="category">Category</label>
+        <select id="category" required>
+            <option value="" disabled selected>Select Category</option>
+            <option value="collection">Collection</option>
+            <option value="future">Future Pickups</option>
+        </select>
+
+        <button type="submit">ADD SHOE</button>
+
+        <p id="formMessage"></p>
+
+    </form>
+
+</main>
+
+<footer class="site-footer">
+
+    <div class="footer-logo">
+        <img src="assets/images/new-logo.png" alt="80's Kicks">
+    </div>
+
+    <div class="footer-right">
+        <a href="https://www.instagram.com/adrian_sikorski_/" target="_blank">
+            <img src="assets/images/Instagram.svg.png" alt="Instagram">
+        </a>
+
+        <p>© 2026 80's Kicks</p>
+        <p>Personal Sneaker Collection & Wishlist</p>
+    </div>
+
+</footer>
+
+</div>
+
+<script type="module" src="js/addShoe.js"></script>
+<script src="js/mobileMenu.js"></script>
+</body>
+</html>
