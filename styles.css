@@ -1,20 +1,36 @@
 @charset "utf-8";
 /* CSS Document */
 
-.page-container {
-    width: 100%;
-}
-body {
-    background-color: #F7E8BE;
-font-family: 'Montserrat', serif;
-}
-html, body {
-    margin: 0;
-    padding: 0;
-}
 :root {
     --chicago-red: #CE1141;
 }
+
+/* GENERAL PAGE SETUP */
+
+html {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    overflow-y: scroll;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    background-color: #F7E8BE;
+    font-family: 'Montserrat', serif;
+}
+
+.page-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* NAVIGATION */
+
 .primary-nav {
     position: fixed;
     top: 0;
@@ -80,6 +96,7 @@ html, body {
     color: #000000;
     text-shadow: none;
 }
+
 .sub-page .primary-nav::before {
     opacity: 1;
     transform: translateY(0);
@@ -89,6 +106,9 @@ html, body {
     color: #000000;
     text-shadow: none;
 }
+
+/* NAV DARK OVERLAY */
+
 body::after {
     content: "";
     position: fixed;
@@ -110,6 +130,9 @@ body::after {
 body:has(.primary-nav:hover)::after {
     opacity: 1;
 }
+
+/* LOGO HEADER */
+
 .site-header {
     position: fixed;
     top: 62.5px;
@@ -129,6 +152,7 @@ body:has(.primary-nav:hover)::after {
     display: block;
     transform: translateX(-30px);
 }
+
 .site-header a {
     display: block;
 }
@@ -136,6 +160,9 @@ body:has(.primary-nav:hover)::after {
 .site-header a:hover {
     cursor: pointer;
 }
+
+/* MAIN GENERAL */
+
 main {
     display: flex;
     margin: 0;
@@ -143,8 +170,10 @@ main {
     font-family: Baskerville, "Palatino Linotype", Palatino, "Century Schoolbook L", "Times New Roman", serif;
     color: #FFFFFF;
     padding: 0;
-
 }
+
+/* OLD/EXTRA SECTION STYLES */
+
 .section-about {
     color: #FFFFFF;
     font-family: Baskerville, "Palatino Linotype", Palatino, "Century Schoolbook L", "Times New Roman", serif;
@@ -152,12 +181,10 @@ main {
     padding: 0 20px;
     line-height: 36px;
 }
+
 .me {
     padding-left: 70px;
-
-
 }
-
 
 .sites {
     font-family: 'Lato', Baskerville, "Palatino Linotype", Palatino, "Century Schoolbook L", "Times New Roman", serif;
@@ -167,8 +194,6 @@ main {
     text-align: center;
     margin: 100px 0 25px;
     text-transform: uppercase;
-    /* [disabled]border-bottom-width: 1px; */
-    /* [disabled]border-bottom-style: solid; */
 }
 
 .banners {
@@ -176,41 +201,42 @@ main {
     justify-content: space-around;
     align-items: center;
 }
+
 .contact {
     font-family: 'Lato', Baskerville, "Palatino Linotype", Palatino, "Century Schoolbook L", "Times New Roman", serif;
     color: #FFFFFF;
     font-size: 50px;
     text-align: center;
 }
+
 .page-contact {
     background-color: #940C26;
     padding: 0 50px;
 }
+
 .info {
     font-size: 40px;
     font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", serif;
     color: #FFFFFF;
 }
+
 .info a {
     color: #FFFFFF;
 }
+
+.info p a:hover {
+    color: #F7E8BE;
+}
+
 .about {
     background-color: #940C26;
 }
+
 h2 {
     color: #FFFFFF;
     text-align: center;
     font-family: Baskerville, "Palatino Linotype", Palatino, "Century Schoolbook L", "Times New Roman", serif;
     font-size: 50px;
-}
-.shoes {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 280px));
-    justify-content: center;
-    gap: 75px 55px;
-    width: 90%;
-    max-width: 1300px;
-    margin: 0 auto 100px auto;
 }
 
 .spacing {
@@ -219,6 +245,74 @@ h2 {
     color: #FFFFFF;
     text-align: center;
     font-size: medium;
+}
+
+/* HOME PAGE */
+
+.main-index {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.hero-image {
+    width: 100%;
+    position: relative;
+}
+
+.hero-image::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0,0,0,0.25);
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    object-position: center 60%;
+    display: block;
+}
+
+/* COLLECTION / FUTURE PAGES */
+
+.collection-page,
+.future-page {
+    padding-top: 155px;
+    padding-bottom: 100px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.collection-title,
+.future-title,
+.new-title {
+    text-align: center;
+    color: #000000;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 48px;
+    font-weight: 600;
+    margin-bottom: 45px;
+    letter-spacing: 7px;
+    text-transform: uppercase;
+}
+
+.shoes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 280px));
+    justify-content: center;
+    gap: 75px 55px;
+    width: 90%;
+    max-width: 1300px;
+    margin: 0 auto 100px auto;
 }
 
 .shoe {
@@ -270,7 +364,9 @@ h2 {
     line-height: 1.45;
 }
 
-.shoe p a {
+.shoe p a,
+.collection-page .shoe p a,
+.future-page .shoe p a {
     display: block;
     width: 100%;
     text-align: center;
@@ -288,126 +384,28 @@ h2 {
     color: var(--chicago-red);
 }
 
-.info p a:hover {
-    color: #F7E8BE;
-}
+/* MOVE SHOE BUTTON */
 
-.main-index {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-}
-
-.hero-image {
-    width: 100%;
-position: relative;
-}
-
-.hero-image::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.25);
-}
-
-.hero-image img {
-    width: 100%;
-    height: 100vh;
-    object-fit: cover;
-    object-position: center 60%;
-    display: block;
-}
-.site-footer {
+.move-shoe-btn {
+    margin-top: 12px;
+    padding: 9px 12px;
     background-color: #000000;
     color: #FFFFFF;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 45px 80px;
-}
-
-.footer-logo img {
-    width: 170px;
-    height: auto;
-}
-
-.footer-right {
-    text-align: right;
-    font-family: 'Montserrat', serif;
-}
-
-.footer-right img {
-    width: 48px;
-    height: auto;
-    margin-bottom: 12px;
-
-    filter: brightness(0) saturate(100%)
-            invert(11%) sepia(95%)
-            saturate(4788%)
-            hue-rotate(337deg)
-            brightness(90%)
-            contrast(103%);
-}
-.footer-right p {
-    margin: 5px 0;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
     letter-spacing: 1px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-
-.collection-page,
-.future-page {
-    padding-top: 155px;
-    padding-bottom: 100px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.move-shoe-btn:hover {
+    background-color: var(--chicago-red);
+    transform: translateY(-2px);
 }
 
-.collection-title,
-.future-title,
-.new-title {
-    text-align: center;
-    color: #000000;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 48px;
-    font-weight: 600;
-    margin-bottom: 45px;
-    letter-spacing: 7px;
-    text-transform: uppercase;
-}
-
-.collection-page .shoe,
-.future-page .shoe {
-    text-align: center;
-}
-
-.collection-page .shoe p a,
-.future-page .shoe p a {
-    color: #000000;
-    text-decoration: none;
-    font-family: 'Montserrat', sans-serif;
-}
-
-.collection-page .shoe p a:hover,
-.future-page .shoe p a:hover {
-    color: var(--chicago-red);
-}
-
-
-
-
-html {
-    overflow-y: scroll;
-}
-.footer-right img {
-    filter: brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(4788%) hue-rotate(337deg) brightness(90%) contrast(103%);
-    width: 48px;
-}
-
+/* ADD NEW PAGE */
 
 .new-page {
     padding-top: 180px;
@@ -417,8 +415,6 @@ html {
     flex-direction: column;
     align-items: center;
 }
-
-
 
 .shoe-form {
     width: 420px;
@@ -460,11 +456,13 @@ html {
 .shoe-form button:hover {
     background-color: var(--chicago-red);
 }
+
 #formMessage {
     color: #000000;
     text-align: center;
     font-weight: 700;
 }
+
 .hidden {
     display: none;
 }
@@ -498,13 +496,57 @@ html {
     font-weight: 600;
     margin-top: 10px;
 }
-/* Hides hamburger on desktop */
+
+/* FOOTER */
+
+.site-footer {
+    background-color: #000000;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 45px 80px;
+    margin-top: auto;
+}
+
+.footer-logo img {
+    width: 170px;
+    height: auto;
+}
+
+.footer-right {
+    text-align: right;
+    font-family: 'Montserrat', serif;
+}
+
+.footer-right img {
+    width: 48px;
+    height: auto;
+    margin-bottom: 12px;
+
+    filter: brightness(0) saturate(100%)
+            invert(11%) sepia(95%)
+            saturate(4788%)
+            hue-rotate(337deg)
+            brightness(90%)
+            contrast(103%);
+}
+
+.footer-right p {
+    margin: 5px 0;
+    letter-spacing: 1px;
+}
+
+/* HAMBURGER DEFAULT HIDDEN ON DESKTOP */
+
 .hamburger {
     display: none;
 }
 
-/* MOBILE NAV */
-@media screen and (max-width: 768px) {
+/* MOBILE / ZOOMED NAV */
+/* Increased from 768px to 1050px so the logo does not cover ADD NEW when zoomed in. */
+
+@media screen and (max-width: 1250px) {
 
     .primary-nav {
         height: 95px;
@@ -545,8 +587,21 @@ html {
         display: block;
         width: 30px;
         height: 3px;
-        background-color: #000000;
         transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    
+    .hamburger span:nth-child(1) {
+        background-color: var(--chicago-red);
+    }
+    
+    .hamburger span:nth-child(2) {
+        background-color: #000000;
+    }
+    
+    .hamburger span:nth-child(3) {
+        background-color: #FFFFFF;
+        border: 1px solid #000000;
+        box-sizing: border-box;
     }
 
     .primary-nav ul {
@@ -626,22 +681,27 @@ html {
     .shoe p {
         width: 280px;
     }
-}
-.move-shoe-btn {
-    margin-top: 12px;
-    padding: 9px 12px;
-    background-color: #000000;
-    color: #FFFFFF;
-    border: none;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+
+    .site-footer {
+        padding: 35px 30px;
+    }
 }
 
-.move-shoe-btn:hover {
-    background-color: var(--chicago-red);
-    transform: translateY(-2px);
+/* SMALL PHONES */
+
+@media screen and (max-width: 520px) {
+
+    .shoe-form {
+        width: 88%;
+    }
+
+    .site-footer {
+        flex-direction: column;
+        gap: 25px;
+        text-align: center;
+    }
+
+    .footer-right {
+        text-align: center;
+    }
 }
