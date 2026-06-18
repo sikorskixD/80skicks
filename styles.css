@@ -599,9 +599,7 @@ h2 {
     }
     
     .hamburger span:nth-child(3) {
-        background-color: #FFFFFF;
-        border: 1px solid #000000;
-        box-sizing: border-box;
+        background-color: #F7E8BE;
     }
 
     .primary-nav ul {
