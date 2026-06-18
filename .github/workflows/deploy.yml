@@ -28,7 +28,7 @@ jobs:
 
       - name: Create Firebase config file
         run: |
-          cat > js/firebaseConfig.js << 'EOF'
+          cat > js/firebaseConfig.js << EOF
           export const firebaseConfig = {
             apiKey: "${{ secrets.FIREBASE_API_KEY }}",
             authDomain: "${{ secrets.FIREBASE_AUTH_DOMAIN }}",
@@ -39,6 +39,20 @@ jobs:
             measurementId: "${{ secrets.FIREBASE_MEASUREMENT_ID }}"
           };
           EOF
+
+      - name: Confirm Firebase config exists
+        run: |
+          echo "Current folder:"
+          pwd
+
+          echo "Root files:"
+          ls -la
+
+          echo "JS folder files:"
+          ls -la js
+
+          echo "First few lines of firebaseConfig.js:"
+          sed -n '1,5p' js/firebaseConfig.js
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
