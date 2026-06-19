@@ -10,44 +10,6 @@ const shoeNameInput = document.getElementById("shoeName");
 const imageUrlInput = document.getElementById("imageUrl");
 const shoeUrlInput = document.getElementById("shoeUrl");
 
-if (searchFlightClubBtn && shoeSearchInput) {
-    searchFlightClubBtn.addEventListener("click", function () {
-        const searchText = shoeSearchInput.value.trim();
-
-        if (searchText === "") {
-            alert("Type in a shoe name first.");
-            return;
-        }
-
-        const flightClubUrl = "https://www.flightclub.com/catalogsearch/result?q=" + encodeURIComponent(searchText);
-
-        window.open(flightClubUrl, "_blank");
-    });
-
-    shoeSearchInput.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            searchFlightClubBtn.click();
-        }
-    });
-}
-
-if (preciseFlightClubBtn && shoeSearchInput) {
-    preciseFlightClubBtn.addEventListener("click", function () {
-        const searchText = shoeSearchInput.value.trim();
-
-        if (searchText === "") {
-            alert("Type in a shoe name first.");
-            return;
-        }
-
-        const preciseSearch = `site:flightclub.com ${searchText}`;
-        const googleUrl = "https://www.google.com/search?q=" + encodeURIComponent(preciseSearch);
-
-        window.open(googleUrl, "_blank");
-    });
-}
-
 if (autoFillFlightClubBtn && flightClubProductUrl) {
     autoFillFlightClubBtn.addEventListener("click", async function () {
         const productUrl = flightClubProductUrl.value.trim();
@@ -82,23 +44,32 @@ if (autoFillFlightClubBtn && flightClubProductUrl) {
             const title = data.data.title || "";
             const image = data.data.image?.url || "";
 
-            if (title && shoeNameInput) {
+            const badTitle =
+                title.toLowerCase().includes("attention required") ||
+                title.toLowerCase().includes("cloudflare");
+
+            if (title && !badTitle && shoeNameInput) {
                 shoeNameInput.value = cleanFlightClubTitle(title);
+            } else if (shoeNameInput) {
+                shoeNameInput.value = makeNameFromFlightClubUrl(productUrl);
             }
 
             if (image && imageUrlInput) {
                 imageUrlInput.value = image;
-            }
-
-            if (autoFillMessage) {
                 autoFillMessage.textContent = "Auto-fill complete. Check the fields before adding.";
+            } else {
+                autoFillMessage.textContent = "Shoe name/link filled, but image could not be pulled because Flight Club blocked the page preview.";
             }
 
         } catch (error) {
             console.error("Auto-fill error:", error);
 
+            if (shoeNameInput) {
+                shoeNameInput.value = makeNameFromFlightClubUrl(productUrl);
+            }
+
             if (autoFillMessage) {
-                autoFillMessage.textContent = "Shoe link was filled, but name/image could not be pulled automatically.";
+                autoFillMessage.textContent = "Shoe name/link filled, but image could not be pulled automatically.";
             }
         }
     });
@@ -110,4 +81,34 @@ function cleanFlightClubTitle(title) {
         .replace("- Flight Club", "")
         .replace("Flight Club", "")
         .trim();
+}
+
+function makeNameFromFlightClubUrl(url) {
+    try {
+        const urlObject = new URL(url);
+        let slug = urlObject.pathname.split("/").filter(Boolean).pop();
+
+        if (!slug) {
+            return "";
+        }
+
+        slug = slug.replace(/-\d+$/, "");
+
+        return slug
+            .split("-")
+            .map(function (word) {
+                if (word.toLowerCase() === "og") return "OG";
+                if (word.toLowerCase() === "ps") return "PS";
+                if (word.toLowerCase() === "gs") return "GS";
+                if (word.toLowerCase() === "td") return "TD";
+                if (word.toLowerCase() === "air") return "Air";
+                if (word.toLowerCase() === "jordan") return "Jordan";
+
+                return word.charAt(0).toUpperCase() + word.slice(1);
+            })
+            .join(" ");
+    } catch (error) {
+        console.error("URL name cleanup error:", error);
+        return "";
+    }
 }
