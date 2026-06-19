@@ -48,6 +48,37 @@
         <p id="adminStatus">You must sign in to add shoes.</p>
     </div>
 
+<div class="shoe-search-box">
+    <h2>Search Shoe</h2>
+
+    <input 
+        type="text" 
+        id="shoeSearchInput" 
+        placeholder="Example: Air Jordan 1 Chicago Off White"
+    >
+
+    <button type="button" id="searchFlightClubBtn">
+    Search Flight Club
+</button>
+
+<button type="button" id="preciseFlightClubBtn">
+    Precise Flight Club Search
+</button>
+<div class="flightclub-autofill-box">
+    <input 
+        type="url" 
+        id="flightClubProductUrl" 
+        placeholder="Paste Flight Club product URL"
+    >
+
+    <button type="button" id="autoFillFlightClubBtn">
+        Auto-Fill From Flight Club URL
+    </button>
+
+    <p id="autoFillMessage"></p>
+</div>
+</div>
+
     <form id="shoeForm" class="shoe-form hidden">
 
         <label for="shoeName">Shoe Name</label>
@@ -93,6 +124,7 @@
 
 </div>
 
+<script src="js/shoeSearch.js"></script>
 <script type="module" src="js/addShoe.js"></script>
 <script src="js/mobileMenu.js"></script>
 </body>

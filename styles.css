@@ -703,3 +703,87 @@ h2 {
         text-align: center;
     }
 }
+.shoe-search-box {
+    background-color: #940C26;
+    color: #F7E8BE;
+    width: 90%;
+    max-width: 600px;
+    margin: 140px auto 30px auto;
+    padding: 25px;
+    border: 3px solid black;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.shoe-search-box h2 {
+    margin-top: 0;
+    font-family: 'Cinzel', serif;
+}
+.flightclub-autofill-box {
+    margin-top: 22px;
+    padding-top: 22px;
+    border-top: 2px solid #F7E8BE;
+}
+
+#flightClubProductUrl {
+    width: 90%;
+    max-width: 400px;
+    padding: 12px;
+    font-size: 16px;
+    font-family: 'Lato', sans-serif;
+    border: 2px solid black;
+    margin-bottom: 15px;
+}
+
+#autoFillFlightClubBtn {
+    display: block;
+    margin: 0 auto;
+    padding: 12px 20px;
+    background-color: black;
+    color: #F7E8BE;
+    border: 2px solid #F7E8BE;
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#autoFillFlightClubBtn:hover {
+    background-color: #F7E8BE;
+    color: black;
+    border: 2px solid black;
+}
+
+#autoFillMessage {
+    color: #F7E8BE;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    margin-top: 12px;
+}
+
+#shoeSearchInput {
+    width: 90%;
+    max-width: 400px;
+    padding: 12px;
+    font-size: 16px;
+    font-family: 'Lato', sans-serif;
+    border: 2px solid black;
+    margin-bottom: 15px;
+}
+
+#searchFlightClubBtn {
+    display: block;
+    margin: 0 auto;
+    padding: 12px 20px;
+    background-color: black;
+    color: #F7E8BE;
+    border: 2px solid #F7E8BE;
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#searchFlightClubBtn:hover {
+    background-color: #F7E8BE;
+    color: black;
+    border: 2px solid black;
+}
