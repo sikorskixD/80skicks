@@ -103,18 +103,19 @@ function makeNameFromFlightClubUrl(url) {
 
         // Remove common filler words that mess up the naming
         const fillerWords = [
-            "retro",
-            "high",
-            "low",
-            "mid",
-            "og",
-            "sp",
-            "se",
-            "mens",
-            "womens",
-            "men",
-            "women"
-        ];
+    "retro",
+    "high",
+    "low",
+    "mid",
+    "og",
+    "sp",
+    "se",
+    "mens",
+    "womens",
+    "men",
+    "women",
+    "reimagined"
+];
 
         // Keep words like "low" only for shoes where you actually want them in model name
         // Model detection happens before filler cleanup.
@@ -163,11 +164,17 @@ function makeNameFromFlightClubUrl(url) {
         }
 
         let remainingWords = words.filter(function(word) {
-            const lower = word.toLowerCase();
+    const lower = word.toLowerCase();
 
-            return !modelWordsToRemove.includes(lower) &&
-                   !fillerWords.includes(lower);
-        });
+    const isStyleCode = /^[a-z]{2}\d{4,}$/i.test(word);
+    const isYear = /^(19|20)\d{2}$/.test(word);
+
+    return !modelWordsToRemove.includes(lower) &&
+           !fillerWords.includes(lower) &&
+           !isStyleCode &&
+           !isYear &&
+           lower !== "reimagined";
+});
 
         const collabs = [
             {
