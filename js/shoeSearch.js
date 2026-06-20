@@ -132,6 +132,9 @@ function makeNameFromFlightClubUrl(url) {
     "og",
     "sp",
     "se",
+    "premium",
+    "pro",
+    "qs",
     "mens",
     "womens",
     "men",
@@ -265,11 +268,73 @@ function makeNameFromFlightClubUrl(url) {
             }
         });
 
-        let colorway = remainingWords
-            .map(function(word) {
-                return word.toUpperCase();
-            })
-            .join(" ");
+        const nicknames = [
+    {
+        name: "MS. PACMAN",
+        words: ["ms", "pacman"],
+        removeExtraWords: ["chlorine", "blue", "cerise"]
+    },
+    {
+        name: "PACMAN",
+        words: ["pacman"],
+        removeExtraWords: ["black", "yellow", "red"]
+    },
+    {
+        name: "WHAT THE",
+        words: ["what", "the"],
+        removeExtraWords: []
+    },
+    {
+        name: "PIGEON",
+        words: ["pigeon"],
+        removeExtraWords: []
+    },
+    {
+        name: "LOBSTER",
+        words: ["lobster"],
+        removeExtraWords: []
+    },
+    {
+        name: "TIFFANY",
+        words: ["tiffany"],
+        removeExtraWords: []
+    }
+];
+
+let foundNicknames = [];
+
+nicknames.forEach(function(nickname) {
+    const lowerRemainingWords = remainingWords.map(function(word) {
+        return word.toLowerCase();
+    });
+
+    const hasNickname = nickname.words.every(function(nicknameWord) {
+        return lowerRemainingWords.includes(nicknameWord);
+    });
+
+    if (hasNickname) {
+        foundNicknames.push(nickname.name);
+
+        remainingWords = remainingWords.filter(function(word) {
+            const lower = word.toLowerCase();
+
+            return !nickname.words.includes(lower) &&
+                   !nickname.removeExtraWords.includes(lower);
+        });
+    }
+});
+
+let colorway = "";
+
+if (foundNicknames.length > 0) {
+    colorway = foundNicknames.join(" ");
+} else {
+    colorway = remainingWords
+        .map(function(word) {
+            return word.toUpperCase();
+        })
+        .join(" ");
+}
 
         let finalNameParts = [];
 
