@@ -408,7 +408,7 @@ h2 {
 /* ADD NEW PAGE */
 
 .new-page {
-    padding-top: 180px;
+    padding-top: 155px;
     padding-bottom: 80px;
     width: 100%;
     display: flex;
@@ -416,45 +416,178 @@ h2 {
     align-items: center;
 }
 
+.new-title {
+    margin-bottom: 28px;
+}
+
+.admin-login-box {
+    text-align: center;
+    margin-bottom: 45px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.admin-login-box button {
+    padding: 12px 22px;
+    margin: 8px;
+    background-color: #000000;
+    color: #FFFFFF;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.25s ease;
+}
+
+.admin-login-box button:hover {
+    background-color: var(--chicago-red);
+    transform: translateY(-2px);
+}
+
+#adminStatus {
+    color: #000000;
+    font-weight: 700;
+    margin-top: 8px;
+}
+
+.shoe-search-box {
+    background: linear-gradient(145deg, #940C26, #7c071f);
+    color: #F7E8BE;
+    width: 90%;
+    max-width: 650px;
+    margin: 0 auto 45px auto;
+    padding: 34px 40px 38px;
+    border: 3px solid #000000;
+    text-align: center;
+    box-sizing: border-box;
+    box-shadow: 0 18px 35px rgba(0,0,0,0.22);
+}
+
+.shoe-search-box h2 {
+    margin: 0 0 26px 0;
+    color: #FFFFFF;
+    font-family: 'Cinzel', serif;
+    font-size: 48px;
+    line-height: 1;
+    letter-spacing: 1px;
+}
+
+#shoeSearchInput,
+#flightClubProductUrl {
+    width: 100%;
+    max-width: 470px;
+    padding: 14px 16px;
+    font-size: 15px;
+    font-family: 'Montserrat', sans-serif;
+    border: 2px solid #000000;
+    margin-bottom: 15px;
+    background-color: #FFFFFF;
+    color: #000000;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+#shoeSearchInput:focus,
+#flightClubProductUrl:focus {
+    border-color: #F7E8BE;
+    box-shadow: 0 0 0 3px rgba(247, 232, 190, 0.35);
+}
+
+#searchFlightClubBtn,
+#autoFillFlightClubBtn {
+    display: inline-block;
+    margin: 0 auto;
+    padding: 13px 24px;
+    background-color: #000000;
+    color: #F7E8BE;
+    border: 2px solid #F7E8BE;
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.25s ease;
+}
+
+#searchFlightClubBtn:hover,
+#autoFillFlightClubBtn:hover {
+    background-color: #F7E8BE;
+    color: #000000;
+    transform: translateY(-2px);
+}
+
+.flightclub-autofill-box {
+    margin-top: 28px;
+    padding-top: 28px;
+    border-top: 2px solid rgba(247, 232, 190, 0.9);
+}
+
+#autoFillMessage {
+    color: #F7E8BE;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 14px auto 0;
+    max-width: 470px;
+    line-height: 1.4;
+}
+
+/* ADD SHOE FORM */
+
 .shoe-form {
-    width: 420px;
+    width: 90%;
+    max-width: 470px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    font-family: 'Montserrat', serif;
+    gap: 14px;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 40px;
 }
 
 .shoe-form label {
     color: #000000;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: 1px;
+    font-size: 15px;
 }
 
 .shoe-form input,
 .shoe-form select {
-    padding: 12px;
+    padding: 14px 16px;
     border: 2px solid #000000;
-    font-family: 'Montserrat', serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 16px;
     background-color: #FFFFFF;
+    color: #000000;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.shoe-form input:focus,
+.shoe-form select:focus {
+    border-color: var(--chicago-red);
+    box-shadow: 0 0 0 3px rgba(206, 17, 65, 0.18);
 }
 
 .shoe-form button {
-    margin-top: 20px;
-    padding: 14px;
+    margin-top: 18px;
+    padding: 15px;
     background-color: #000000;
     color: #FFFFFF;
     border: none;
-    font-family: 'Montserrat', serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: 2px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.25s ease;
 }
 
 .shoe-form button:hover {
     background-color: var(--chicago-red);
+    transform: translateY(-2px);
 }
 
 #formMessage {
@@ -465,36 +598,6 @@ h2 {
 
 .hidden {
     display: none;
-}
-
-.admin-login-box {
-    text-align: center;
-    margin-bottom: 35px;
-    font-family: 'Montserrat', sans-serif;
-}
-
-.admin-login-box button {
-    padding: 12px 20px;
-    margin: 8px;
-    background-color: #000000;
-    color: #FFFFFF;
-    border: none;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.admin-login-box button:hover {
-    background-color: var(--chicago-red);
-}
-
-#adminStatus {
-    color: #000000;
-    font-weight: 600;
-    margin-top: 10px;
 }
 
 /* FOOTER */
@@ -544,7 +647,6 @@ h2 {
 }
 
 /* MOBILE / ZOOMED NAV */
-/* Increased from 768px to 1050px so the logo does not cover ADD NEW when zoomed in. */
 
 @media screen and (max-width: 1250px) {
 
@@ -689,6 +791,31 @@ h2 {
 
 @media screen and (max-width: 520px) {
 
+    .new-page {
+        padding-top: 125px;
+    }
+
+    .new-title {
+        font-size: 34px;
+        letter-spacing: 4px;
+    }
+
+    .shoe-search-box {
+        width: 92%;
+        padding: 28px 22px 32px;
+    }
+
+    .shoe-search-box h2 {
+        font-size: 36px;
+    }
+
+    #searchFlightClubBtn,
+    #autoFillFlightClubBtn {
+        width: 100%;
+        max-width: 300px;
+        font-size: 14px;
+    }
+
     .shoe-form {
         width: 88%;
     }
@@ -702,88 +829,4 @@ h2 {
     .footer-right {
         text-align: center;
     }
-}
-.shoe-search-box {
-    background-color: #940C26;
-    color: #F7E8BE;
-    width: 90%;
-    max-width: 600px;
-    margin: 140px auto 30px auto;
-    padding: 25px;
-    border: 3px solid black;
-    text-align: center;
-    box-sizing: border-box;
-}
-
-.shoe-search-box h2 {
-    margin-top: 0;
-    font-family: 'Cinzel', serif;
-}
-.flightclub-autofill-box {
-    margin-top: 22px;
-    padding-top: 22px;
-    border-top: 2px solid #F7E8BE;
-}
-
-#flightClubProductUrl {
-    width: 90%;
-    max-width: 400px;
-    padding: 12px;
-    font-size: 16px;
-    font-family: 'Lato', sans-serif;
-    border: 2px solid black;
-    margin-bottom: 15px;
-}
-
-#autoFillFlightClubBtn {
-    display: block;
-    margin: 0 auto;
-    padding: 12px 20px;
-    background-color: black;
-    color: #F7E8BE;
-    border: 2px solid #F7E8BE;
-    font-family: 'Cinzel', serif;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-#autoFillFlightClubBtn:hover {
-    background-color: #F7E8BE;
-    color: black;
-    border: 2px solid black;
-}
-
-#autoFillMessage {
-    color: #F7E8BE;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    margin-top: 12px;
-}
-
-#shoeSearchInput {
-    width: 90%;
-    max-width: 400px;
-    padding: 12px;
-    font-size: 16px;
-    font-family: 'Lato', sans-serif;
-    border: 2px solid black;
-    margin-bottom: 15px;
-}
-
-#searchFlightClubBtn {
-    display: block;
-    margin: 0 auto;
-    padding: 12px 20px;
-    background-color: black;
-    color: #F7E8BE;
-    border: 2px solid #F7E8BE;
-    font-family: 'Cinzel', serif;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-#searchFlightClubBtn:hover {
-    background-color: #F7E8BE;
-    color: black;
-    border: 2px solid black;
 }
