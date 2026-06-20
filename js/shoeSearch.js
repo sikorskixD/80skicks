@@ -1,5 +1,4 @@
 const searchFlightClubBtn = document.getElementById("searchFlightClubBtn");
-const preciseFlightClubBtn = document.getElementById("preciseFlightClubBtn");
 const shoeSearchInput = document.getElementById("shoeSearchInput");
 
 const flightClubProductUrl = document.getElementById("flightClubProductUrl");
@@ -9,6 +8,29 @@ const autoFillMessage = document.getElementById("autoFillMessage");
 const shoeNameInput = document.getElementById("shoeName");
 const imageUrlInput = document.getElementById("imageUrl");
 const shoeUrlInput = document.getElementById("shoeUrl");
+if (searchFlightClubBtn && shoeSearchInput) {
+    searchFlightClubBtn.addEventListener("click", function () {
+        const searchText = shoeSearchInput.value.trim();
+
+        if (searchText === "") {
+            alert("Type in a shoe name first.");
+            return;
+        }
+
+        const preciseSearch = `site:flightclub.com ${searchText}`;
+        const googleUrl = "https://www.google.com/search?q=" + encodeURIComponent(preciseSearch);
+
+        window.open(googleUrl, "_blank");
+    });
+
+    shoeSearchInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            searchFlightClubBtn.click();
+        }
+    });
+}
+
 
 if (autoFillFlightClubBtn && flightClubProductUrl) {
     autoFillFlightClubBtn.addEventListener("click", async function () {
