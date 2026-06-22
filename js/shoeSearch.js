@@ -9,8 +9,6 @@ const shoeNameInput = document.getElementById("shoeName");
 const imageUrlInput = document.getElementById("imageUrl");
 const shoeUrlInput = document.getElementById("shoeUrl");
 
-fillFieldsFromUrlParams();
-
 if (searchFlightClubBtn && shoeSearchInput) {
     searchFlightClubBtn.addEventListener("click", function () {
         const searchText = shoeSearchInput.value.trim();
@@ -21,10 +19,7 @@ if (searchFlightClubBtn && shoeSearchInput) {
         }
 
         const preciseSearch = `site:flightclub.com ${searchText}`;
-
-        // This tries to open Google's top result directly.
-        // If Google needs confirmation, it may show a Google page first.
-        const googleUrl = "https://www.google.com/search?btnI=1&q=" + encodeURIComponent(preciseSearch);
+        const googleUrl = "https://www.google.com/search?q=" + encodeURIComponent(preciseSearch);
 
         window.open(googleUrl, "_blank");
     });
@@ -38,7 +33,7 @@ if (searchFlightClubBtn && shoeSearchInput) {
 }
 
 if (autoFillFlightClubBtn && flightClubProductUrl) {
-    autoFillFlightClubBtn.addEventListener("click", function () {
+    autoFillFlightClubBtn.addEventListener("click", async function () {
         const productUrl = flightClubProductUrl.value.trim();
 
         if (productUrl === "") {
@@ -51,66 +46,55 @@ if (autoFillFlightClubBtn && flightClubProductUrl) {
             return;
         }
 
-        fillFromFlightClubUrl(productUrl);
-
-        if (autoFillMessage) {
-            autoFillMessage.textContent = "Shoe link and name filled. For the image, use the Flight Club bookmarklet from the product page.";
-        }
-    });
-}
-
-function fillFieldsFromUrlParams() {
-    const params = new URLSearchParams(window.location.search);
-
-    const productUrl = params.get("fcUrl");
-    const imageUrl = params.get("fcImg");
-    const title = params.get("fcTitle");
-
-    if (!productUrl && !imageUrl && !title) {
-        return;
-    }
-
-    if (productUrl) {
-        if (flightClubProductUrl) {
-            flightClubProductUrl.value = productUrl;
-        }
-
         if (shoeUrlInput) {
             shoeUrlInput.value = productUrl;
         }
-    }
 
-    if (imageUrl && imageUrlInput) {
-        imageUrlInput.value = imageUrl;
-    }
-
-    if (title && shoeNameInput) {
-        const cleanedTitle = cleanFlightClubTitle(title);
-
-        if (cleanedTitle && !cleanedTitle.toLowerCase().includes("flight club")) {
-            shoeNameInput.value = cleanedTitle.toUpperCase();
-        } else if (productUrl) {
-            shoeNameInput.value = makeNameFromFlightClubUrl(productUrl);
+        if (autoFillMessage) {
+            autoFillMessage.textContent = "Trying to pull shoe info...";
         }
-    } else if (productUrl && shoeNameInput) {
-        shoeNameInput.value = makeNameFromFlightClubUrl(productUrl);
-    }
 
-    if (autoFillMessage) {
-        autoFillMessage.textContent = "Auto-fill complete. Check the fields before adding.";
-    }
+        try {
+            const apiUrl = "https://api.microlink.io/?url=" + encodeURIComponent(productUrl);
+            const response = await fetch(apiUrl);
+            const data = await response.json();
 
-    window.history.replaceState({}, document.title, window.location.pathname);
-}
+            if (!data || data.status !== "success") {
+                throw new Error("Could not pull page data.");
+            }
 
-function fillFromFlightClubUrl(productUrl) {
-    if (shoeUrlInput) {
-        shoeUrlInput.value = productUrl;
-    }
+            const title = data.data.title || "";
+            const image = data.data.image?.url || "";
 
-    if (shoeNameInput) {
-        shoeNameInput.value = makeNameFromFlightClubUrl(productUrl);
-    }
+            const badTitle =
+                title.toLowerCase().includes("attention required") ||
+                title.toLowerCase().includes("cloudflare");
+
+            if (title && !badTitle && shoeNameInput) {
+                shoeNameInput.value = cleanFlightClubTitle(title);
+            } else if (shoeNameInput) {
+                shoeNameInput.value = makeNameFromFlightClubUrl(productUrl);
+            }
+
+            if (image && imageUrlInput) {
+                imageUrlInput.value = image;
+                autoFillMessage.textContent = "Auto-fill complete. Check the fields before adding.";
+            } else {
+                autoFillMessage.textContent = "Shoe name/link filled, but image could not be pulled because Flight Club blocked the page preview.";
+            }
+
+        } catch (error) {
+            console.error("Auto-fill error:", error);
+
+            if (shoeNameInput) {
+                shoeNameInput.value = makeNameFromFlightClubUrl(productUrl);
+            }
+
+            if (autoFillMessage) {
+                autoFillMessage.textContent = "Shoe name/link filled, but image could not be pulled automatically.";
+            }
+        }
+    });
 }
 
 function cleanFlightClubTitle(title) {
@@ -141,22 +125,22 @@ function makeNameFromFlightClubUrl(url) {
 
         // Remove common filler words that mess up the naming
         const fillerWords = [
-    "retro",
-    "high",
-    "low",
-    "mid",
-    "og",
-    "sp",
-    "se",
-    "premium",
-    "pro",
-    "qs",
-    "mens",
-    "womens",
-    "men",
-    "women",
-    "reimagined"
-];
+            "retro",
+            "high",
+            "low",
+            "mid",
+            "og",
+            "sp",
+            "se",
+            "premium",
+            "pro",
+            "qs",
+            "mens",
+            "womens",
+            "men",
+            "women",
+            "reimagined"
+        ];
 
         // Keep words like "low" only for shoes where you actually want them in model name
         // Model detection happens before filler cleanup.
@@ -205,17 +189,17 @@ function makeNameFromFlightClubUrl(url) {
         }
 
         let remainingWords = words.filter(function(word) {
-    const lower = word.toLowerCase();
+            const lower = word.toLowerCase();
 
-    const isStyleCode = /^[a-z]{2}\d{4,}$/i.test(word);
-    const isYear = /^(19|20)\d{2}$/.test(word);
+            const isStyleCode = /^[a-z]{2}\d{4,}$/i.test(word);
+            const isYear = /^(19|20)\d{2}$/.test(word);
 
-    return !modelWordsToRemove.includes(lower) &&
-           !fillerWords.includes(lower) &&
-           !isStyleCode &&
-           !isYear &&
-           lower !== "reimagined";
-});
+            return !modelWordsToRemove.includes(lower) &&
+                   !fillerWords.includes(lower) &&
+                   !isStyleCode &&
+                   !isYear &&
+                   lower !== "reimagined";
+        });
 
         const collabs = [
             {
@@ -285,72 +269,72 @@ function makeNameFromFlightClubUrl(url) {
         });
 
         const nicknames = [
-    {
-        name: "MS. PACMAN",
-        words: ["ms", "pacman"],
-        removeExtraWords: ["chlorine", "blue", "cerise"]
-    },
-    {
-        name: "PACMAN",
-        words: ["pacman"],
-        removeExtraWords: ["black", "yellow", "red"]
-    },
-    {
-        name: "WHAT THE",
-        words: ["what", "the"],
-        removeExtraWords: []
-    },
-    {
-        name: "PIGEON",
-        words: ["pigeon"],
-        removeExtraWords: []
-    },
-    {
-        name: "LOBSTER",
-        words: ["lobster"],
-        removeExtraWords: []
-    },
-    {
-        name: "TIFFANY",
-        words: ["tiffany"],
-        removeExtraWords: []
-    }
-];
+            {
+                name: "MS. PACMAN",
+                words: ["ms", "pacman"],
+                removeExtraWords: ["chlorine", "blue", "cerise"]
+            },
+            {
+                name: "PACMAN",
+                words: ["pacman"],
+                removeExtraWords: ["black", "yellow", "red"]
+            },
+            {
+                name: "WHAT THE",
+                words: ["what", "the"],
+                removeExtraWords: []
+            },
+            {
+                name: "PIGEON",
+                words: ["pigeon"],
+                removeExtraWords: []
+            },
+            {
+                name: "LOBSTER",
+                words: ["lobster"],
+                removeExtraWords: []
+            },
+            {
+                name: "TIFFANY",
+                words: ["tiffany"],
+                removeExtraWords: []
+            }
+        ];
 
-let foundNicknames = [];
+        let foundNicknames = [];
 
-nicknames.forEach(function(nickname) {
-    const lowerRemainingWords = remainingWords.map(function(word) {
-        return word.toLowerCase();
-    });
+        nicknames.forEach(function(nickname) {
+            const lowerRemainingWords = remainingWords.map(function(word) {
+                return word.toLowerCase();
+            });
 
-    const hasNickname = nickname.words.every(function(nicknameWord) {
-        return lowerRemainingWords.includes(nicknameWord);
-    });
+            const hasNickname = nickname.words.every(function(nicknameWord) {
+                return lowerRemainingWords.includes(nicknameWord);
+            });
 
-    if (hasNickname) {
-        foundNicknames.push(nickname.name);
+            if (hasNickname) {
+                foundNicknames.push(nickname.name);
 
-        remainingWords = remainingWords.filter(function(word) {
-            const lower = word.toLowerCase();
+                remainingWords = remainingWords.filter(function(word) {
+                    const lower = word.toLowerCase();
 
-            return !nickname.words.includes(lower) &&
-                   !nickname.removeExtraWords.includes(lower);
+                    return !nickname.words.includes(lower) &&
+                           !nickname.removeExtraWords.includes(lower);
+                });
+            }
         });
-    }
-});
 
-let colorway = "";
+        let colorway = "";
 
-if (foundNicknames.length > 0) {
-    colorway = foundNicknames.join(" ");
-} else {
-    colorway = remainingWords
-        .map(function(word) {
-            return word.toUpperCase();
-        })
-        .join(" ");
-}
+        if (foundNicknames.length > 0) {
+            colorway = foundNicknames.join(" ");
+        } else {
+            colorway = remainingWords
+                .map(function(word) {
+                    return word.toUpperCase();
+                })
+                .join(" ");
+        }
 
         let finalNameParts = [];
 
