@@ -8,6 +8,9 @@ const autoFillMessage = document.getElementById("autoFillMessage");
 const shoeNameInput = document.getElementById("shoeName");
 const imageUrlInput = document.getElementById("imageUrl");
 const shoeUrlInput = document.getElementById("shoeUrl");
+
+fillFieldsFromUrlParams();
+
 if (searchFlightClubBtn && shoeSearchInput) {
     searchFlightClubBtn.addEventListener("click", function () {
         const searchText = shoeSearchInput.value.trim();
@@ -18,7 +21,10 @@ if (searchFlightClubBtn && shoeSearchInput) {
         }
 
         const preciseSearch = `site:flightclub.com ${searchText}`;
-        const googleUrl = "https://www.google.com/search?q=" + encodeURIComponent(preciseSearch);
+
+        // This tries to open Google's top result directly.
+        // If Google needs confirmation, it may show a Google page first.
+        const googleUrl = "https://www.google.com/search?btnI=1&q=" + encodeURIComponent(preciseSearch);
 
         window.open(googleUrl, "_blank");
     });
@@ -31,9 +37,8 @@ if (searchFlightClubBtn && shoeSearchInput) {
     });
 }
 
-
 if (autoFillFlightClubBtn && flightClubProductUrl) {
-    autoFillFlightClubBtn.addEventListener("click", async function () {
+    autoFillFlightClubBtn.addEventListener("click", function () {
         const productUrl = flightClubProductUrl.value.trim();
 
         if (productUrl === "") {
@@ -46,55 +51,66 @@ if (autoFillFlightClubBtn && flightClubProductUrl) {
             return;
         }
 
+        fillFromFlightClubUrl(productUrl);
+
+        if (autoFillMessage) {
+            autoFillMessage.textContent = "Shoe link and name filled. For the image, use the Flight Club bookmarklet from the product page.";
+        }
+    });
+}
+
+function fillFieldsFromUrlParams() {
+    const params = new URLSearchParams(window.location.search);
+
+    const productUrl = params.get("fcUrl");
+    const imageUrl = params.get("fcImg");
+    const title = params.get("fcTitle");
+
+    if (!productUrl && !imageUrl && !title) {
+        return;
+    }
+
+    if (productUrl) {
+        if (flightClubProductUrl) {
+            flightClubProductUrl.value = productUrl;
+        }
+
         if (shoeUrlInput) {
             shoeUrlInput.value = productUrl;
         }
+    }
 
-        if (autoFillMessage) {
-            autoFillMessage.textContent = "Trying to pull shoe info...";
+    if (imageUrl && imageUrlInput) {
+        imageUrlInput.value = imageUrl;
+    }
+
+    if (title && shoeNameInput) {
+        const cleanedTitle = cleanFlightClubTitle(title);
+
+        if (cleanedTitle && !cleanedTitle.toLowerCase().includes("flight club")) {
+            shoeNameInput.value = cleanedTitle.toUpperCase();
+        } else if (productUrl) {
+            shoeNameInput.value = makeNameFromFlightClubUrl(productUrl);
         }
+    } else if (productUrl && shoeNameInput) {
+        shoeNameInput.value = makeNameFromFlightClubUrl(productUrl);
+    }
 
-        try {
-            const apiUrl = "https://api.microlink.io/?url=" + encodeURIComponent(productUrl);
-            const response = await fetch(apiUrl);
-            const data = await response.json();
+    if (autoFillMessage) {
+        autoFillMessage.textContent = "Auto-fill complete. Check the fields before adding.";
+    }
 
-            if (!data || data.status !== "success") {
-                throw new Error("Could not pull page data.");
-            }
+    window.history.replaceState({}, document.title, window.location.pathname);
+}
 
-            const title = data.data.title || "";
-            const image = data.data.image?.url || "";
+function fillFromFlightClubUrl(productUrl) {
+    if (shoeUrlInput) {
+        shoeUrlInput.value = productUrl;
+    }
 
-            const badTitle =
-                title.toLowerCase().includes("attention required") ||
-                title.toLowerCase().includes("cloudflare");
-
-            if (title && !badTitle && shoeNameInput) {
-                shoeNameInput.value = cleanFlightClubTitle(title);
-            } else if (shoeNameInput) {
-                shoeNameInput.value = makeNameFromFlightClubUrl(productUrl);
-            }
-
-            if (image && imageUrlInput) {
-                imageUrlInput.value = image;
-                autoFillMessage.textContent = "Auto-fill complete. Check the fields before adding.";
-            } else {
-                autoFillMessage.textContent = "Shoe name/link filled, but image could not be pulled because Flight Club blocked the page preview.";
-            }
-
-        } catch (error) {
-            console.error("Auto-fill error:", error);
-
-            if (shoeNameInput) {
-                shoeNameInput.value = makeNameFromFlightClubUrl(productUrl);
-            }
-
-            if (autoFillMessage) {
-                autoFillMessage.textContent = "Shoe name/link filled, but image could not be pulled automatically.";
-            }
-        }
-    });
+    if (shoeNameInput) {
+        shoeNameInput.value = makeNameFromFlightClubUrl(productUrl);
+    }
 }
 
 function cleanFlightClubTitle(title) {
